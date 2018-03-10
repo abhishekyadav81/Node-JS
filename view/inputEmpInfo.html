@@ -1,0 +1,63 @@
+<html>
+    <head><title>Employee Form</title></head>
+    <body>
+        <center>
+            <table bgcolor="#32A0B9" width="80%">
+                <tr><td></br></td></tr>
+                <tr><td colspan="2"><center><font style="font-family:  Georgia, serif;color:white;" size="6"><b>Employee Information Form</b></font></center></td></tr>
+                <tr><td></br></td></tr>
+                <tr><td><center>
+                <form action="/inputEmpInfo" enctype="multipart/form-data" method="POST">
+                    <table bgcolor="#B9D5DC" width="40%">
+                        <tr><td></br></td></tr>
+                        <tr><td align="right" nowrap><font style="font-family:  Georgia, serif;"><b>Employee Name: </b></font></td><td><input type="text" required name="empName" size="30" /></b></td></tr>
+                        <tr><td></br></td></tr>
+                        <tr>
+                            <td align="right"><font style="font-family:  Georgia, serif;">
+                                <b>Gender: </b></font></td><td><select name="gen" required>
+                                    <option value="0" selected>-Select-</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Transgender">Transgender</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr><td></br></td></tr>
+                        <tr><td align="right" nowrap><font style="font-family: Georgia, serif;"><b>Date of Birth: </b></font></td><td><input type="date" name="dob" max="31-12-1997" required/></td></tr>
+                        <tr><td></br></td></tr>
+                        <tr><td align="right" nowrap><font style="font-family:  Georgia, serif;"><b>Primary Email: </b></font></td><td><input type="email" name="pemail" size="30" required/></td></tr>
+                        <tr><td></br></td></tr>
+                        <tr><td align="right" nowrap><font style="font-family:  Georgia, serif;"><b>Secondary Email: </b></font></td><td><input type="email" name="semail" size="30"/></td></tr>
+                        <tr><td></br></td></tr>
+                        <tr><td align="right" nowrap><font style="font-family:  Georgia, serif;"><b>Phone Number: </b></font></td><td><input type="text" name="phNum" size="13" required/></td></tr>
+                        <tr><td></br></td></tr>
+                        <tr><td align="right" nowrap><font style="font-family:  Georgia, serif;"><b>Skill Set: </b></font></td><td><textarea name="skills" rows="2" cols="30" required></textarea></td></tr>
+                        <tr><td></br></td></tr>
+                        <tr><td align="right" nowrap><font style="font-family:  Georgia, serif;"><b>Total Experience: </b></font></td>
+                            <td><input type="number" name="yrs" min="0" max="50" size="1" value="0"/>&nbsp;years
+                            <input type="number" name="mon" min="0" max="12" size="1" value="0"/>months
+                            </td>
+                        </tr>
+                        <tr><td></br></td></tr>
+                        <tr><td align="right" nowrap><font style="font-family:  Georgia, serif;"><b>Photo upload: </b></font></td><td>
+                            <!-- <input type="file" name="photo" accept="image/*" /> -->
+                            <!-- <form id="frmUploader" enctype="multipart/form-data" action="api/Upload/" method="post"> -->
+                                <input type="file" name="image">
+                                <!-- <input type="submit" name="submit" id="btnSubmit" value="Upload" /> </form>                         -->
+                        </td></tr>
+                        <tr><td></br></td></tr>
+                        <tr><td align="right" nowrap><font style="font-family:  Georgia, serif;"><b>Resume upload: </b></font></td><td><input type="file" name="resume"/></td></tr>
+                        <tr><td></br></td></tr>
+                        <tr><td colspan="2"><center><button type="submit"><font style="font-family:  Georgia, serif;color:darkcyan"><b>Submit</b></font></button></center></td></tr>
+                        <tr><td></br></td></tr>
+                    </table>
+                </form>
+                <form action="/" method="GET">
+                    <button type="submit"><font style="font-family:  Georgia, serif;color:#32A0B9"><b>Home</b></font></button>
+                </form></center>
+                </td></tr>
+                <tr><td></br></td></tr>
+            </table>
+        </center>
+    </body>
+</html>

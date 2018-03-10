@@ -1,0 +1,33 @@
+<html>
+    <body>
+        <center><br><br>
+            <form action="/emailSend" method="GET">
+                <div>
+                    <p>From: 
+                        <select name="fromId">
+                            <option value="ratnesh.sidhaye@gmail.com">ratnesh.sidhaye@gmail.com</option>
+                        </select>
+                    </p>
+                </div>
+                <div>
+                    <p>To: 
+                        <select name="toId">
+                            <option value="ratnesh.sidhaye@diaspark.com">ratnesh.sidhaye@diaspark.com</option>
+                            <option value="abhishek.yadav@diaspark.com">abhishek.yadav@diaspark.com</option>
+                        </select>
+                    </p>
+                </div>
+                <div>
+                    <p>Subject: <input type="text" name="sub" size="40" multiple/></p>
+                </div>
+                <div>
+                    <p>Message: <input type="text" name="msg" size="40" multiple /></p>
+                </div>
+                <div>
+                    <p><input type="submit" value="Send Email" name="email" /></p>
+                </div>
+            </form>
+            <!--<br><br><h4>Email Status <div>document.getElementById(view.msg).value</div></h4><h4>Message Id<div>#{view.MessageId}</div></h4>-->
+        </center>
+    </body>
+</html>

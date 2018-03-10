@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Display Screen
+    body
+        br
+        center 
+            table(bgcolor="#32A0B9" width="80%" style="border-top-color: #210A02;border-bottom-color: #210A02")
+                tr
+                    td(colspan="8" style="font-family:  Georgia, serif;color:white;")
+                        center 
+                            font(size="6") 
+                                b #{error.title}
+                tr
+                    td
+                        br
+                        br
+                tr
+                    td 
+                        center
+                            font(style="font-family:  Georgia, serif;")
+                                b #{error.result}
+                                br 
+                                br
+
+                    td(colspan="9")
+                        center
+                            form(action="/", method="get")
+                                 p: button(type="submit" style="font-family:  Georgia, serif;color:#32A0B9;") 
+                                    b Home
+                                    br
+                                    br

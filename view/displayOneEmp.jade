@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Display Screen
+    body
+       br
+       center 
+            table(bgcolor="#32A0B9" width="50%")
+                tr
+                    td(style="font-family:  Georgia, serif;color:white;")
+                        center 
+                            b 
+                                font(size="6") Employee Information
+                        br
+                tr
+                    td(style="font-family:  Georgia, serif;")
+                        center
+                            table(bgcolor="#B9D5DC")
+                                tr
+                                    td
+                                        br
+                                each item in result
+                                    tr
+                                        td(nowrap)
+                                            b Employee Id 
+                                        td
+                                            font(style="color: white")  :   #{item.emp_id}
+                                    tr
+                                        td(nowrap)
+                                            b Employee Name
+                                        td 
+                                            font(style="color: white")  :   #{item.emp_name}
+                                    tr
+                                        td(nowrap)
+                                            b Gender
+                                        td
+                                            font(style="color: white")  :   #{item.emp_gen}
+                                    tr
+                                        td(nowrap)
+                                            b Date of Birth
+                                        td
+                                            font(style="color: white")  :   #{item.dob}
+                                    tr
+                                        td(nowrap)
+                                            b Primary Email
+                                        td
+                                            font(style="color: white")  :   #{item.p_email}
+                                    tr
+                                        td(nowrap)
+                                            b Secondary Email
+                                        td
+                                            font(style="color: white")  :   #{item.s_email}
+                                    tr
+                                        td(nowrap)
+                                            b Phone Number
+                                        td
+                                            font(style="color: white")  :   #{item.phone_number}
+                                    tr
+                                        td(nowrap)
+                                            b Skill Set
+                                        td
+                                            font(style="color: white")  :   #{item.skills}
+                                    tr
+                                        td(nowrap)
+                                            b Total Experience :
+                                        td
+                                            font(style="color: white")  :   #{item.tot_exp_yr} Years and #{item.tot_exp_mon} Months
+                                tr
+                                    td
+                                        br
+                tr
+                    td 
+                        br
+                tr
+                    td(colspan="9")
+                        center
+                            form(action="/searchInfo", method="get")
+                                 p: button(type="submit" style="font-family:  Georgia, serif;color:#32A0B9;") 
+                                    b Search
+                                    
+                        center
+                            form(action="/", method="get")
+                                p: button(type="submit" style="font-family:  Georgia, serif;color:#32A0B9;") 
+                                    b Home

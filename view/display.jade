@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Display Screen
+    body
+       br
+       center 
+            table(bgcolor="#32A0B9" width="80%" style="border-top-color: #210A02;border-bottom-color: #210A02")
+                tr
+                    td(colspan="9" style="font-family:  Georgia, serif;color:white;")
+                        center 
+                            b 
+                                font(size="6") Employee Information
+                        br
+                tr
+                    th(nowrap)
+                        font(style="font-family:  Georgia, serif;") Employee Id
+                    th(nowrap)
+                        font(style="font-family:  Georgia, serif;") Employee Name
+                    th
+                        font(style="font-family:  Georgia, serif;") Gender
+                    th(nowrap)
+                        font(style="font-family:  Georgia, serif;") Date of Birth
+                    th(nowrap)
+                        font(style="font-family:  Georgia, serif;") Primary Email
+                    th(nowrap)
+                        font(style="font-family:  Georgia, serif;") Secondary Email
+                    th(nowrap)
+                        font(style="font-family:  Georgia, serif;") Phone Number
+                    th(nowrap)
+                        font(style="font-family:  Georgia, serif;") Skill Set
+                    th(nowrap)
+                        font(style="font-family:  Georgia, serif;") Total Experience
+                tr
+                    td 
+                        br
+                each item in result
+                    tr 
+                        td(nowrap)
+                            font(style="font-family:  Georgia, serif;color:white")
+                                center=item.emp_id
+                        td(nowrap)
+                            font(style="font-family:  Georgia, serif;color:white")
+                                center=item.emp_name
+                        td
+                            font(style="font-family:  Georgia, serif;color:white")
+                                center=item.emp_gen
+                        td(nowrap)
+                            font(style="font-family:  Georgia, serif;color:white")
+                                center=item.dob
+                        td(nowrap)
+                            font(style="font-family:  Georgia, serif;color:white")
+                                center=item.p_email
+                        td(nowrap)
+                            font(style="font-family:  Georgia, serif;color:white")
+                                center=item.s_email
+                        td(nowrap)
+                            font(style="font-family:  Georgia, serif;color:white")
+                                center=item.ph_num
+                        td(nowrap)
+                            font(style="font-family:  Georgia, serif;color:white")
+                                center=item.skills
+                        td(nowrap)
+                            font(style="font-family:  Georgia, serif;color:white")
+                                center=item.exp
+                    tr
+                        td 
+                            br
+                tr
+                    td(colspan="9")
+                        center
+                            form(action="/searchInfo", method="get")
+                                 p: button(type="submit" style="font-family:  Georgia, serif;color:#32A0B9;") 
+                                    b Search
+                                    
+                        center
+                            form(action="/", method="get")
+                                p: button(type="submit" style="font-family:  Georgia, serif;color:#32A0B9;") 
+                                    b Home
