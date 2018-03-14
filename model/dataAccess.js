@@ -16,32 +16,25 @@ function getList(req, res, callback) {
     dbMethods.executeSql(query, callback);
 };
 
-function insertData(req, res) {
-    var empName = req.body.empName;
-    var empGen = req.body.gen;
-    var dob = req.body.dob;
-    var pEmail = req.body.pemail;
-    var sEmail = req.body.semail;
-    var phNum = parseInt(req.body.phNum);
-    var skills = req.body.skills;
-    var totExpYr = parseInt(req.body.yrs);
-    var totExpMon = parseInt(req.body.mon);
-    var imgPath = '';
-    var filePath = '';
-    var imgname = req.body.photo;
-    var fileName = req.body.resume;
-    var sql = "insert into employees (emp_name,emp_gen,dob,p_email,s_email,phone_number,skills,tot_exp_yr,tot_exp_mon,img_path,file_path,image_name,file_name,created_date,email_flag) values ('" + empName + "','" + empGen + "','" + dob + "','" + pEmail + "','" + sEmail + "'," + phNum + ",'" + skills + "'," + totExpYr + "," + totExpMon + ",'" + imgPath + "','" + filePath + "','" + imgname + "','" + fileName + "',sysdate(),'N')";
-    dbMethods.executeSql(sql, function (err, data) {
-        if (data != undefined || data != null) {
-            if (data.affectedRows > 0) {
-                res.render('D:\\Tutorial\\NodeJs\\NodeWebSite\\view\\error.jade', { error: { result: 'Date inserted successfully', title: 'Employee Information' } });
-            } else {
-                res.render('D:\\Tutorial\\NodeJs\\NodeWebSite\\view\\error.jade', { error: { result: 'Date inserted successfully', title: 'Employee Information' } });
-            }
-        } else {
-            res.render('D:\\Tutorial\\NodeJs\\NodeWebSite\\view\\error.jade', { error: { result: 'Technical error occured.', title: 'Employee Information' } });
-        }
-    });
+function insertData(fields,files,res,callback) {
+    var empName = fields.empName;
+    var empGen = fields.gen == 'Male' ? 'M':'F';
+    if(fields.gen == 'Transgender'){
+        empGen='T';
+    }
+    var dob = fields.dob;
+    var pEmail = fields.pemail;
+    var sEmail = fields.semail;
+    var phNum = parseInt(fields.phNum);
+    var skills = fields.skills;
+    var totExpYr = parseInt(fields.yrs);
+    var totExpMon = parseInt(fields.mon);
+    var imgPath = 'D:/Upload/Resume/';
+    var filePath = 'D:/Upload/Images/';
+    var imgname = files.image.name;
+    var fileName = files.resume.name;
+    var sql = "insert into employees (emp_name,emp_gen,dob,p_email,s_mail,phone_number,skills,tot_exp_yr,tot_exp_mon,img_path,file_path,image_name,file_name,created_date,email_flag) values ('" + empName + "','" + empGen + "','" + dob + "','" + pEmail + "','" + sEmail + "'," + phNum + ",'" + skills + "'," + totExpYr + "," + totExpMon + ",'" + imgPath + "','" + filePath + "','" + imgname + "','" + fileName + "',sysdate(),'N')";
+    dbMethods.executeSql(sql,callback);
 }
 
 module.exports = {

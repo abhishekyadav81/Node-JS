@@ -27,93 +27,51 @@ app.get("/createUser", function (req, res) {
     res.render(__dirname + "\\view\\inputEmpInfo.html");
 });
 
+var flag = 'error';
+
 app.post("/inputEmpInfo", function (req, res) {
-    var flag='error';
-    
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
-      var oldpath = files.image.path;
-     const fileKiloByteSize = (fs.statSync(oldpath).size) * 0.001;
-     if (fileKiloByteSize > 100) {
-         flag = 'error';
-         console.log('Uploaded file exceeds limit of 100KB.');
-         res.render(__dirname+'\\view\\inputEmpInfo.html', { result: 'Uploaded file exceeds limit of 100KB.' });
-     } else {
-         flag = 'ok';
-     }
-      
+        
+        var oldpath = files.image.path;
+        var newpath = 'D:/Upload/Images/' + files.image.name;
 
-      var newpath = 'D:/Upload/Images/' + files.image.name;
+        uploadFile(oldpath, newpath);
+        var oldpathresumefile = files.resume.path;
+        var newpathresumefile = 'D:/Upload/Resume/' + files.resume.name;
+        uploadFile(oldpathresumefile, newpathresumefile);
 
-    // Read the file
-    fs.readFile(oldpath, function (err, data) {
-        if (err) throw err;
-       
-        // Write the file
-        fs.writeFile(newpath, data, function (err) {
-            if (err) throw err;
-            // Delete the file
-            fs.unlink(oldpath, function (err) {
-                if (err) throw err;
-            });
-        });
-    });
-      
-     var oldpathresumefile = files.resume.path;
-     var newpathresumefile = 'D:/Upload/Resume/' + files.resume.name;
-
-// Read the file
-    fs.readFile(oldpathresumefile, function (err, data) {
-        if (err) throw err;
-
-    // Write the file
-        fs.writeFile(newpathresumefile, data, function (err) {
-        if (err) throw err;
-        // Delete the file
-        fs.unlink(oldpathresumefile, function (err) {
-            if (err) throw err;
-        });
+        if (flag=== 'ok') {
+            var callback = function (err, data) {
+                if (data != undefined || data != null) {
+                    if (data.affectedRows > 0) {
+                        res.render(__dirname+'\\view\\error.jade', { error: { result: 'Date inserted successfully', title: 'Employee Information' } });
+                    } else {
+                        res.render(__dirname+'\\view\\error.jade', { error: { result: 'Date inserted successfully', title: 'Employee Information' } });
+                    }
+                } else {
+                    console.log('Error with SQL Execution '+err);
+                    res.render(__dirname+'\\view\\error.jade', { error: { result: 'Technical error occured.', title: 'Employee Information' } });
+                }
+            }
+            dataAccess.insertData(fields,files,res,callback);
+        }
     });
 });
 
-    });
-});
 
-    // var flag;
-    // const fileKiloByteSize = (fs.statSync('D:\\Upload\\' + req.body.resume).size) * 0.001;
-    // if (fileKiloByteSize > 100) {
-    //     flag = 'error';
-    //     console.log('Uploaded file exceeds limit of 100KB.');
-    //     res.render(__dirname+'\\view\\inputEmpInfo.html', { result: 'Uploaded file exceeds limit of 100KB.' });
-    // } else {
-    //     flag = 'ok';
-    // }
-    // const imgFileKiloByteSize = (fs.statSync('D:\\Upload\\' + req.body.photo).size) * 0.001;
-    // var dim = imgSize('D:\\Upload\\' + req.body.photo);
-    // if (dim.width > 200 && dim.height > 174 && imgFileKiloByteSize > 30) {
-    //     flag = 'error';
-    //     console.log('Uploaded image dimensions exceed limit.');
-    //     res.render(__dirname+'\\view\\inputEmpInfo.html', { result: 'Uploaded image dimensions exceed limit.' });
-    // } else {
-    //     flag = 'ok';
-    // }
-    // if (validator.equals(flag, 'ok')) {
-    //     dataAccess.insertData(req, res);
-    // }
-
-
-app.post("/searchEmpInfo",  (req, res) => {
+app.post("/searchEmpInfo", (req, res) => {
     var callback = function (err, data) {
         if (data != undefined) {
             console.log(data.length);
             if (data.length > 1)
-                res.render(__dirname+'\\view\\display.jade', { result: data });
-            else if(data.length == 1)
-                res.render(__dirname+'\\view\\displayOneEmp.jade', { result: data });
-             else 
-                res.render(__dirname+'\\view\\error.jade', { error: { result: 'No data found', title: 'Employee Information' } });    
+                res.render(__dirname + '\\view\\display.jade', { result: data });
+            else if (data.length == 1)
+                res.render(__dirname + '\\view\\displayOneEmp.jade', { result: data });
+            else
+                res.render(__dirname + '\\view\\error.jade', { error: { result: 'No data found', title: 'Employee Information' } });
         } else {
-            res.render(__dirname+'\\view\\error.jade', { error: { result: 'No data found', title: 'Employee Information' } });
+            res.render(__dirname + '\\view\\error.jade', { error: { result: 'No data found', title: 'Employee Information' } });
         }
     };
     dataAccess.getList(req, res, callback);
@@ -126,3 +84,39 @@ app.get("/searchInfo", function (req, res) {
 http.createServer(app).listen(3000, function (req, res) {
     console.log('Server connected.');
 });
+
+function uploadFile(oldpathfile, newpathfile) {
+    const fileKiloByteSize = (fs.statSync(oldpathfile).size) * 0.001;
+    if (fileKiloByteSize > 100) {
+        flag = 'error';
+        console.log('Uploaded file exceeds limit of 100KB.');
+        res.render(__dirname + '\\view\\inputEmpInfo.html', { result: 'Uploaded file exceeds limit of 100KB.' });
+    } else {
+        flag = 'ok';
+    }
+
+    // Read the file
+    fs.readFile(oldpathfile, function (err, data) {
+        if (err) {
+            flag = 'error';
+            throw err;
+        }
+
+        // Write the file
+        fs.writeFile(newpathfile, data, function (err) {
+            if (err) {
+                flag = 'error';
+                throw err;
+            }
+            // Delete the file
+            fs.unlink(oldpathfile, function (err) {
+                if (err) {
+                    flag = 'error';
+                    throw err;
+                }
+
+            });
+        });
+    });
+
+}
