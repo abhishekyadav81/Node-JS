@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        meta(http-equiv="X-UA-Compatible", content="ie=edge")
-        title Display Screen
-    body
-       br
+extends ./layout.jade
+
+block title
+  title Home
+
+block content
        center 
             table(bgcolor="#32A0B9" width="50%")
                 tr
@@ -68,6 +65,17 @@ html(lang="en")
                                             b Total Experience :
                                         td
                                             font(style="color: white")  :   #{item.tot_exp_yr} Years and #{item.tot_exp_mon} Months
+                                    tr
+                                        td(nowrap)
+                                            b Image:
+                                        td
+                                            img(src='/images/'+item.image_name, alt="Image File" ,height="90px" , width="90px" ,position="fixed")
+                                    tr
+                                        td(nowrap)
+                                            b Resume:
+                                        td
+                                            a(href='/resume/'+item.file_name, alt="Resume File" ,height="90px" , width="90px" ,position="fixed") Resume
+
                                 tr
                                     td
                                         br

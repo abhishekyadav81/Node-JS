@@ -1,12 +1,10 @@
 var dbMethods = require('../dbAccess/dbMethods');
 var validator = require('validator');
-var express = require('express');
-var app = express();
 
-app.set("view engine", "jade")
+
 
 function getList(req, res, callback) {
-    var query = "select emp_id,emp_name,emp_gen,dob,p_email,s_mail,phone_number,skills,tot_exp_yr, tot_exp_mon from test.employees ";
+    var query = "select emp_id,emp_name,emp_gen,dob,p_email,s_mail,phone_number,skills,tot_exp_yr, tot_exp_mon,image_name,file_name from test.employees ";
     var empId;
     if (!validator.isEmpty(req.body.empId)) {
         empId = parseInt(req.body.empId);
@@ -15,6 +13,7 @@ function getList(req, res, callback) {
     query = query + " order by emp_name";
     dbMethods.executeSql(query, callback);
 };
+
 
 function insertData(fields,files,res,callback) {
     var empName = fields.empName;

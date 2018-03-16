@@ -4,6 +4,9 @@ var engines = require('consolidate');
 var bodyParser = require('body-parser');
 var http = require('http');
 var express = require('express');
+var session = require('express-session');
+//var cookieParser = require('cookie-parser')
+
 var path = require('path');
 var validator = require('validator');
 var fs = require('fs');
@@ -19,17 +22,59 @@ app.use(express.static(path.join(__dirname, 'view')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get("/", function (req, res) {
-    res.render(__dirname + '\\view\\home.jade');
+app.use(session({
+    key: 'user_sid',
+    secret: 'somerandomstuffs',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        expires: 172800
+    }
+}));
+
+ 
+// Authentication and Authorization Middleware
+var auth = function(req, res, next) {
+    if (req.session && req.session.user != null)
+      return next();
+    else
+      //return res.sendStatus(401);
+      res.render(__dirname + '\\view\\login.jade',{logInFailed: false});
+  };
+   
+  // Login endpoint
+  app.post('/login', function (req, res) {
+    if (!req.body.username || !req.body.password) {
+        res.render(__dirname + '\\view\\login.jade',{logInFailed: true});
+    } else if(req.body.username === "abhi" && req.body.password === "password") {
+      req.session.user = "abhi";
+      res.render(__dirname + '\\view\\home.jade');
+    } else {
+        res.render(__dirname + '\\view\\login.jade', {logInFailed: true} );
+    }
+  });
+   
+  // Logout endpoint
+  app.get('/logout', function (req, res) {
+    req.session.destroy();
+    res.render(__dirname + '\\view\\login.jade',{logInFailed: false} );
+  });
+
+app.get("/",function (req, res) {
+    if (req.session && req.session.user != null){
+        res.render(__dirname + '\\view\\home.jade');
+    } else {
+        res.render(__dirname + '\\view\\login.jade',{logInFailed: false} );
+    }
 });
 
-app.get("/createUser", function (req, res) {
+app.get("/createUser", auth,function (req, res) {
     res.render(__dirname + "\\view\\inputEmpInfo.html");
 });
 
 var flag = 'error';
 
-app.post("/inputEmpInfo", function (req, res) {
+app.post("/inputEmpInfo",auth, function (req, res) {
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
         
@@ -60,7 +105,7 @@ app.post("/inputEmpInfo", function (req, res) {
 });
 
 
-app.post("/searchEmpInfo", (req, res) => {
+app.post("/searchEmpInfo", auth, (req, res) => {
     var callback = function (err, data) {
         if (data != undefined) {
             console.log(data.length);
@@ -77,7 +122,19 @@ app.post("/searchEmpInfo", (req, res) => {
     dataAccess.getList(req, res, callback);
 })
 
-app.get("/searchInfo", function (req, res) {
+
+app.get('/images/:imageFileName', auth, function(req, res) {
+    console.log("imageFileName is set to " + req.params.imageFileName);
+    res.sendFile(path.resolve('D:/Upload/Images/'+req.params.imageFileName));
+  });
+
+  app.get('/resume/:resumeFileName', auth, function(req, res) {
+    console.log("resumeFileName is set to " + req.params.resumeFileName);
+    res.sendFile(path.resolve('D:/Upload/Resume/'+req.params.resumeFileName));
+  });
+  
+
+app.get("/searchInfo", auth, function (req, res) {
     res.render(__dirname + '\\view\\searchEmpInfo.html');
 });
 
@@ -120,3 +177,5 @@ function uploadFile(oldpathfile, newpathfile) {
     });
 
 }
+
+setInterval(emailSchedular.interval,60000,'');

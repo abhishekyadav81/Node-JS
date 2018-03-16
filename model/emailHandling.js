@@ -8,13 +8,15 @@ function interval(arg) {
 function getEmailList() {
     var query = "select emp_id,emp_name,p_email,date_format(date(created_date),'%d %M %Y') created_date from employees where email_flag='N'";
     dbMethods.executeSql(query,function(err,data){
-        var dtl = JSON.stringify(data);
-        var val = JSON.parse(dtl);
-        var sub = val[0].emp_name+" user created.";
-        var emailMsg = "Dear "+val[0].emp_name+" (Employee id: "+val[0].emp_id+"), Your user id has been created on "+val[0].created_date+".";
-        var fromId = "ratnesh.sidhaye@gmail.com";
-        var toId = val[0].p_email;
-        emailSend(val[0].emp_id,sub,emailMsg,fromId,toId);
+        if(data != null){
+            var dtl = JSON.stringify(data);
+            var val = JSON.parse(dtl);
+            var sub = val[0].emp_name+" user created.";
+            var emailMsg = "Dear "+val[0].emp_name+" (Employee id: "+val[0].emp_id+"), Your user id has been created on "+val[0].created_date+".";
+            var fromId = "ratnesh.sidhaye@gmail.com";
+            var toId = val[0].p_email;
+            emailSend(val[0].emp_id,sub,emailMsg,fromId,toId);
+        }
     });    
 };
 

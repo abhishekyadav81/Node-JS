@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        meta(http-equiv="X-UA-Compatible", content="ie=edge")
-        title Display Screen
-    body
-       br
+extends ./layout.jade
+
+block title
+  title Home
+
+block content
        center 
             table(bgcolor="#32A0B9" width="80%" style="border-top-color: #210A02;border-bottom-color: #210A02")
                 tr
@@ -33,7 +30,7 @@ html(lang="en")
                     th(nowrap)
                         font(style="font-family:  Georgia, serif;") Skill Set
                     th(nowrap)
-                        font(style="font-family:  Georgia, serif;") Total Experience
+                        font(style="font-family:  Georgia, serif;") Total Experience Years,Months
                 tr
                     td 
                         br
@@ -59,13 +56,20 @@ html(lang="en")
                                 center=item.s_email
                         td(nowrap)
                             font(style="font-family:  Georgia, serif;color:white")
-                                center=item.ph_num
+                                center=item.phone_number
                         td(nowrap)
                             font(style="font-family:  Georgia, serif;color:white")
                                 center=item.skills
                         td(nowrap)
                             font(style="font-family:  Georgia, serif;color:white")
-                                center=item.exp
+                                center=item.tot_exp_yr
+                        td(nowrap)
+                            font(style="font-family:  Georgia, serif;color:white")
+                                center=item.tot_exp_mon
+
+                                td(nowrap)
+                                    font(style="font-family:  Georgia, serif;color:white")
+                                        img(src='/images/'+item.image_name, alt="Image File" ,height="90px" , width="90px" ,position="fixed")
                     tr
                         td 
                             br

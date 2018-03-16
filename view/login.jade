@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Home
+    body
+        
+       br
+       center 
+            table(bgcolor="#32A0B9" width="40%")
+                tr
+                    td(colspan="2" style="font-family:  Georgia, serif;color:white;")
+                        center 
+                            b 
+                                font(size="6") Welcome
+                        br
+                tr
+                    td
+                        center
+                            form(action="/login", method="post")
+                             b
+                                font(size="6")
+                                    p #{(logInFailed ? "Log In Failed" : "Please Login")}
+
+                             b 
+                                font(size="6") User Name
+                                    p: input(name='username' type="text" style="font-family:  Georgia, serif;color:#32A0B9;") 
+                             b 
+                                font(size="6") Password
+                                    p: input(name='password' type="password" style="font-family:  Georgia, serif;color:#32A0B9;")                                  
+                                    p: input(name="Submit" value='Submit' type="submit" ) 
