@@ -1,10 +1,11 @@
-var dataAccess = require('./model/dataAccess.js');
-var emailSchedular = require('./model/emailHandling.js');
+var dataAccess = require('./dbAccess/dataAccess.js');
 var engines = require('consolidate');
 var bodyParser = require('body-parser');
 var http = require('http');
 var express = require('express');
 var session = require('express-session');
+var bcrypt= require('bcrypt');
+
 //var cookieParser = require('cookie-parser')
 
 var path = require('path');
@@ -43,7 +44,7 @@ var auth = function(req, res, next) {
   };
    
   // Login endpoint
-  app.post('/login', function (req, res) {
+  /*app.post('/login', function (req, res) {
     if (!req.body.username || !req.body.password) {
         res.render(__dirname + '\\view\\login.jade',{logInFailed: true});
     } else if(req.body.username === "abhi" && req.body.password === "password") {
@@ -52,8 +53,35 @@ var auth = function(req, res, next) {
     } else {
         res.render(__dirname + '\\view\\login.jade', {logInFailed: true} );
     }
-  });
-   
+  });*/
+
+  // Login endpoint
+  app.post('/login', function (req, res) {
+    if (!req.body.username || !req.body.password) {
+        res.render(__dirname + '\\view\\login.jade',{logInFailed: true});
+    }     
+    var callback = function (err, data) {
+
+        //data will have the hashed password
+
+        bcrypt.compare(req.body.password, data[0].password).then(function(loginResult) {
+            if (loginResult == true) {
+                req.session.user = req.body.username;
+                res.render(__dirname + '\\view\\home.jade');
+            } else {
+                res.render(__dirname + '\\view\\login.jade', {logInFailed: true} );
+            }
+        })
+        .catch(function (error) {
+            console.log(error.message);
+            res.render(__dirname + '\\view\\login.jade', {logInFailed: true} );
+        });
+        
+    }
+        dataAccess.findUser(req, res, callback);
+    });
+    
+
   // Logout endpoint
   app.get('/logout', function (req, res) {
     req.session.destroy();
@@ -81,10 +109,10 @@ app.post("/inputEmpInfo",auth, function (req, res) {
         var oldpath = files.image.path;
         var newpath = 'D:/Upload/Images/' + files.image.name;
 
-        uploadFile(oldpath, newpath);
+        uploadFile(oldpath, newpath,res);
         var oldpathresumefile = files.resume.path;
         var newpathresumefile = 'D:/Upload/Resume/' + files.resume.name;
-        uploadFile(oldpathresumefile, newpathresumefile);
+        uploadFile(oldpathresumefile, newpathresumefile,res);
 
         if (flag=== 'ok') {
             var callback = function (err, data) {
@@ -142,7 +170,7 @@ http.createServer(app).listen(3000, function (req, res) {
     console.log('Server connected.');
 });
 
-function uploadFile(oldpathfile, newpathfile) {
+function uploadFile(oldpathfile, newpathfile,res) {
     const fileKiloByteSize = (fs.statSync(oldpathfile).size) * 0.001;
     if (fileKiloByteSize > 100) {
         flag = 'error';
@@ -178,4 +206,3 @@ function uploadFile(oldpathfile, newpathfile) {
 
 }
 
-setInterval(emailSchedular.interval,60000,'');
