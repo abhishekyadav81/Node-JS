@@ -5,18 +5,19 @@ var bcrypt = require('bcrypt');
 var emailSchedular = require('../util/emailHandling');
 
 
-function findUser(req, res, callback) {
-    var query = "select password from test.employees where p_email='"+req.body.username+"'";
+function findUser(userName, callback) {
+    console.log('userName is '+userName);
+    var query = "select password from test.employees where p_email='"+userName+"'";
     dbMethods.executeSql(query, callback);
 };
 
 
 
-function getList(req, res, callback) {
+function getList(empId,  callback) {
+    console.log('Emp ID is '+empId);
     var query = "select emp_id,emp_name,emp_gen,dob,p_email,s_mail,phone_number,skills,tot_exp_yr, tot_exp_mon,image_name,file_name from test.employees ";
-    var empId;
-    if (!validator.isEmpty(req.body.empId)) {
-        empId = parseInt(req.body.empId);
+    if (!validator.isEmpty(empId)) {
+        empId = parseInt(empId);
         query = query + " where emp_id=" + empId;
     }
     query = query + " order by emp_name";
@@ -24,7 +25,7 @@ function getList(req, res, callback) {
 };
 
 
-function insertData(fields,files,res,callback) {
+function insertData(fields,files,callback) {
     var empName = fields.empName;
     var empGen = fields.gen == 'Male' ? 'M':'F';
     if(fields.gen == 'Transgender'){

@@ -29,7 +29,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        expires: 172800
+         maxAge: 24*2*60*60*1000 
     }
 }));
 
@@ -78,7 +78,7 @@ var auth = function(req, res, next) {
         });
         
     }
-        dataAccess.findUser(req, res, callback);
+        dataAccess.findUser(req.body.username, callback);
     });
     
 
@@ -127,7 +127,7 @@ app.post("/inputEmpInfo",auth, function (req, res) {
                     res.render(__dirname+'\\view\\error.jade', { error: { result: 'Technical error occured.', title: 'Employee Information' } });
                 }
             }
-            dataAccess.insertData(fields,files,res,callback);
+            dataAccess.insertData(fields,files,callback);
         }
     });
 });
@@ -147,7 +147,7 @@ app.post("/searchEmpInfo", auth, (req, res) => {
             res.render(__dirname + '\\view\\error.jade', { error: { result: 'No data found', title: 'Employee Information' } });
         }
     };
-    dataAccess.getList(req, res, callback);
+    dataAccess.getList(req.body.empId, callback);
 })
 
 
